@@ -42,8 +42,10 @@ public class PatientEntity {
 	@Column(name = "IS_VIP", nullable = false)
 	private Boolean isVip;
 
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@JoinColumn(name = "PATIENT_ID", nullable = false)
+	// LAB1: according to ERD - uni-directional relationship, PatientEntity is the owner of the relationship
+	// LAB2: according to README - bidirectional relationship, PatientEntity is the owner of the relationship
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	// @JoinColumn(name = "PATIENT_ID", nullable = false)
 	private Set<VisitEntity> visits;
 
 	// bidirectional relationship, PatientEntity is the owner of the relationship
@@ -105,6 +107,14 @@ public class PatientEntity {
 
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+
+	public Boolean getVip() {
+		return isVip;
+	}
+
+	public void setVip(Boolean vip) {
+		isVip = vip;
 	}
 
 	public Set<VisitEntity> getVisits() {

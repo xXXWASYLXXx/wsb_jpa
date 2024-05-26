@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -31,6 +33,12 @@ public class VisitEntity {
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JoinColumn(name = "VISIT_ID", nullable = false)
 	private Set<MedicalTreatmentEntity> medicalTreatments = new HashSet<>();
+
+	@ManyToOne
+	private DoctorEntity doctor;
+
+	@ManyToOne
+	private PatientEntity patient;
 
 	public Long getId() {
 		return id;
@@ -62,5 +70,21 @@ public class VisitEntity {
 
 	public void setMedicalTreatments(Set<MedicalTreatmentEntity> medicalTreatments) {
 		this.medicalTreatments = medicalTreatments;
+	}
+
+	public DoctorEntity getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(DoctorEntity doctor) {
+		this.doctor = doctor;
+	}
+
+	public PatientEntity getPatient() {
+		return patient;
+	}
+
+	public void setPatient(PatientEntity patient) {
+		this.patient = patient;
 	}
 }

@@ -42,9 +42,10 @@ public class DoctorEntity {
 	@Enumerated(EnumType.STRING)
 	private Specialization specialization;
 
-	// uni-directional relationship, DoctorEntity is the owner of the relationship
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@JoinColumn(name = "DOCTOR_ID", nullable = false)
+	// LAB1: according to ERD - uni-directional relationship, DoctorEntity is the owner of the relationship
+	// LAB2: according to README - bidirectional relationship, DoctorEntity is the owner of the relationship
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	// @JoinColumn(name = "DOCTOR_ID", nullable = false)
 	private Set<VisitEntity> visits;
 
 	// bidirectional relationship, DoctorEntity is the owner of the relationship
