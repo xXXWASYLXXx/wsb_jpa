@@ -1,12 +1,14 @@
 package com.capgemini.wsb.dto;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 public class VisitTO {
     private Long id;
     private String description;
-    private String time;
-    private Set<MedicalTreatmentTO> medicalTreatments;
+    private LocalDateTime time;
+    private Set<MedicalTreatmentTO> medicalTreatments = new HashSet<>();
     private DoctorTO doctor;
     private PatientTO patient;
 
@@ -26,11 +28,11 @@ public class VisitTO {
         this.description = description;
     }
 
-    public String getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 

@@ -2,6 +2,7 @@ package com.capgemini.wsb.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 public class PatientTO implements Serializable {
@@ -13,7 +14,7 @@ public class PatientTO implements Serializable {
     private String patientNumber;
     private LocalDate dateOfBirth;
     private Boolean isVip;
-    private Set<VisitTO> visits;
+    private Set<VisitTO> visits = new HashSet<>();
     private AddressTO address;
 
     public Long getId() {

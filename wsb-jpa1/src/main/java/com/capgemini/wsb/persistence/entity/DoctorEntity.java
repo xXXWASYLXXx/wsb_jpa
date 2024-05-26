@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -45,8 +46,7 @@ public class DoctorEntity {
 	// LAB1: according to ERD - uni-directional relationship, DoctorEntity is the owner of the relationship
 	// LAB2: according to README - bidirectional relationship, DoctorEntity is the owner of the relationship
 	@OneToMany(mappedBy = "doctor", cascade = CascadeType.REMOVE, orphanRemoval = true)
-	// @JoinColumn(name = "DOCTOR_ID", nullable = false)
-	private Set<VisitEntity> visits;
+	private Set<VisitEntity> visits = new HashSet<>();
 
 	// bidirectional relationship, DoctorEntity is the owner of the relationship
 	@OneToOne(optional = false)

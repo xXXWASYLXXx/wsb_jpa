@@ -1,8 +1,5 @@
 package com.capgemini.wsb.persistence.entity;
 
-import java.time.LocalDate;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "PATIENTS")
@@ -45,8 +45,7 @@ public class PatientEntity {
 	// LAB1: according to ERD - uni-directional relationship, PatientEntity is the owner of the relationship
 	// LAB2: according to README - bidirectional relationship, PatientEntity is the owner of the relationship
 	@OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE, orphanRemoval = true)
-	// @JoinColumn(name = "PATIENT_ID", nullable = false)
-	private Set<VisitEntity> visits;
+	private Set<VisitEntity> visits = new HashSet<>();
 
 	// bidirectional relationship, PatientEntity is the owner of the relationship
 	@OneToOne(optional = false, cascade = CascadeType.ALL)
