@@ -26,8 +26,8 @@ public class VisitEntity {
 	@Column(nullable = false)
 	private LocalDateTime time;
 
-	// bidirectional relationship, VisitEntity is the owner side of the relationship
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "visit")
+	// uni-directional relationship, VisitEntity is the owner of the relationship
+	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private Set<MedicalTreatmentEntity> medicalTreatments = new HashSet<>();
 
 	public Long getId() {
