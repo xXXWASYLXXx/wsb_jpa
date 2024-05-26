@@ -1,6 +1,7 @@
 package com.capgemini.wsb.service.impl;
 
 import com.capgemini.wsb.dto.PatientTO;
+import com.capgemini.wsb.mapper.PatientMapper;
 import com.capgemini.wsb.persistence.dao.PatientDao;
 import com.capgemini.wsb.persistence.entity.PatientEntity;
 import com.capgemini.wsb.service.PatientService;
@@ -22,6 +23,6 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PatientTO findById(Long id) {
         PatientEntity entity = patientDao.findOne(id);
-        return null;
+        return PatientMapper.mapToTO(entity);
     }
 }
