@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Set;
 
@@ -45,6 +46,11 @@ public class DoctorEntity {
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JoinColumn(name = "DOCTOR_ID", nullable = false)
 	private Set<VisitEntity> visits;
+
+	// bidirectional relationship, DoctorEntity is the owner of the relationship
+	@OneToOne(optional = false)
+	@JoinColumn(name = "ADDRESS_ID", nullable = false, unique = true, updatable = false)
+	private AddressEntity address;
 
 	public Long getId() {
 		return id;
@@ -108,5 +114,13 @@ public class DoctorEntity {
 
 	public void setVisits(Set<VisitEntity> visits) {
 		this.visits = visits;
+	}
+
+	public AddressEntity getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressEntity address) {
+		this.address = address;
 	}
 }
