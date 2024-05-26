@@ -112,7 +112,7 @@ public class PatientTO implements Serializable {
                 ", email='" + email + '\'' +
                 ", patientNumber='" + patientNumber + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
-                ", isVip=" + isVip +
+                ", setVip=" + isVip +
 //                ", visits=" + visits +
                 ", address=" + address +
                 '}';

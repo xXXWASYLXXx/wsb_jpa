@@ -19,7 +19,7 @@ public final class PatientMapper {
         patientTO.setEmail(patientEntity.getEmail());
         patientTO.setPatientNumber(patientEntity.getPatientNumber());
         patientTO.setDateOfBirth(patientEntity.getDateOfBirth());
-        patientTO.setVip(patientEntity.getVip());
+        patientTO.setVip(patientEntity.isVip());
 
         ModelMapper modelMapper = new ModelMapper();
         patientEntity.getVisits().forEach(
