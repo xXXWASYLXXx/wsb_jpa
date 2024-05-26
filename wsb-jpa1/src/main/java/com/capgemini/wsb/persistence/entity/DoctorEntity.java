@@ -2,6 +2,7 @@ package com.capgemini.wsb.persistence.entity;
 
 import com.capgemini.wsb.persistence.enums.Specialization;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,7 +10,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Set;
 
 @Entity
 @Table(name = "DOCTOR")
@@ -36,6 +40,11 @@ public class DoctorEntity {
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Specialization specialization;
+
+	// uni-directional relationship, DoctorEntity is the owner of the relationship
+	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@JoinColumn(name = "DOCTOR_ID", nullable = false)
+	private Set<VisitEntity> visits;
 
 	public Long getId() {
 		return id;
@@ -93,4 +102,11 @@ public class DoctorEntity {
 		this.specialization = specialization;
 	}
 
+	public Set<VisitEntity> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(Set<VisitEntity> visits) {
+		this.visits = visits;
+	}
 }

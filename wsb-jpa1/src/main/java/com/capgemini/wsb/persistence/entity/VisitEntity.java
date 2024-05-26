@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -28,6 +29,7 @@ public class VisitEntity {
 
 	// uni-directional relationship, VisitEntity is the owner of the relationship
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@JoinColumn(name = "VISIT_ID", nullable = false)
 	private Set<MedicalTreatmentEntity> medicalTreatments = new HashSet<>();
 
 	public Long getId() {
@@ -54,4 +56,11 @@ public class VisitEntity {
 		this.time = time;
 	}
 
+	public Set<MedicalTreatmentEntity> getMedicalTreatments() {
+		return medicalTreatments;
+	}
+
+	public void setMedicalTreatments(Set<MedicalTreatmentEntity> medicalTreatments) {
+		this.medicalTreatments = medicalTreatments;
+	}
 }
