@@ -3,6 +3,7 @@ package com.capgemini.wsb.persistence.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,14 +29,14 @@ public class VisitEntity {
 	private LocalDateTime time;
 
 	// uni-directional relationship, VisitEntity is the owner of the relationship
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "VISIT_ID", nullable = false)
 	private Set<MedicalTreatmentEntity> medicalTreatments = new HashSet<>();
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private DoctorEntity doctor;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private PatientEntity patient;
 
 	public Long getId() {

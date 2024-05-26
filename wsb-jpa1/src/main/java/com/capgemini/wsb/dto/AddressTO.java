@@ -53,4 +53,15 @@ public class AddressTO implements Serializable
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
+
+    @Override
+    public String toString() {
+        return "AddressTO{" +
+                "id=" + id +
+                ", city='" + city + '\'' +
+                ", addressLine1='" + addressLine1 + '\'' +
+                ", addressLine2='" + addressLine2 + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                '}';
+    }
 }

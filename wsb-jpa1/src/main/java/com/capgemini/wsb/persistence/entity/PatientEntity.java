@@ -3,6 +3,7 @@ package com.capgemini.wsb.persistence.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,13 +45,18 @@ public class PatientEntity {
 
 	// LAB1: according to ERD - uni-directional relationship, PatientEntity is the owner of the relationship
 	// LAB2: according to README - bidirectional relationship, PatientEntity is the owner of the relationship
-	@OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<VisitEntity> visits = new HashSet<>();
 
 	// bidirectional relationship, PatientEntity is the owner of the relationship
 	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "ADDRESS_ID", nullable = false, unique = true, updatable = false)
 	private AddressEntity address;
+
+	public void addVisit(VisitEntity visit) {
+		visit.setPatient(this);
+		visits.add(visit);
+	}
 
 	public Long getId() {
 		return id;

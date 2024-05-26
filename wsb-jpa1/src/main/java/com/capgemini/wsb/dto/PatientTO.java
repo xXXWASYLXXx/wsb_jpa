@@ -17,6 +17,11 @@ public class PatientTO implements Serializable {
     private Set<VisitTO> visits = new HashSet<>();
     private AddressTO address;
 
+    public void addVisit(VisitTO visit) {
+        visit.setPatient(this);
+        visits.add(visit);
+    }
+
     public Long getId() {
         return id;
     }
@@ -95,5 +100,21 @@ public class PatientTO implements Serializable {
 
     public void setAddress(AddressTO address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "PatientTO{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", telephoneNumber='" + telephoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", patientNumber='" + patientNumber + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", isVip=" + isVip +
+//                ", visits=" + visits +
+                ", address=" + address +
+                '}';
     }
 }

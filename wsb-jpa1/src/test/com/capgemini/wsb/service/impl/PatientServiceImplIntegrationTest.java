@@ -4,6 +4,10 @@ import com.capgemini.wsb.dto.AddressTO;
 import com.capgemini.wsb.dto.DoctorTO;
 import com.capgemini.wsb.dto.PatientTO;
 import com.capgemini.wsb.dto.VisitTO;
+import com.capgemini.wsb.persistence.dao.impl.DoctorDaoImpl;
+import com.capgemini.wsb.persistence.dao.impl.VisitDaoImpl;
+import com.capgemini.wsb.persistence.entity.DoctorEntity;
+import com.capgemini.wsb.persistence.entity.VisitEntity;
 import com.capgemini.wsb.persistence.enums.Specialization;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,13 +18,17 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.HashSet;
 import java.util.Set;
 
 @SpringBootTest
 class PatientServiceImplIntegrationTest {
     @Autowired
     private PatientServiceImpl patientService;
+
+    @Autowired
+    private DoctorDaoImpl doctorDao;
+    @Autowired
+    private VisitDaoImpl visitDao;
 
     @Test
     @Transactional
@@ -93,14 +101,30 @@ class PatientServiceImplIntegrationTest {
         kamilKajakVisitTO.setDoctor(janKowalskiDoctorTO);
         kamilKajakVisitTO.setPatient(kamilKajakPatientTO);
 
-        Set<VisitTO> kamilKajakVisits = new HashSet<>();
-        kamilKajakVisits.add(kamilKajakVisitTO);
-        kamilKajakPatientTO.setVisits(kamilKajakVisits);
+        janKowalskiDoctorTO.addVisit(kamilKajakVisitTO);
+        kamilKajakPatientTO.addVisit(kamilKajakVisitTO);
 
         // when
         PatientTO createdKamilKajakPatientTO = patientService.create(kamilKajakPatientTO);
+        Set<VisitTO> createdKamilKajakVisits = createdKamilKajakPatientTO.getVisits();
+
+        VisitTO visitTO = createdKamilKajakVisits.iterator().next();
+        Long visitTOId = visitTO.getId();
+
+        DoctorTO doctorTO = createdKamilKajakVisits.iterator().next().getDoctor();
+        Long doctorTOId = doctorTO.getId();
+
+        patientService.deleteById(createdKamilKajakPatientTO.getId());
+        DoctorEntity doctorEntityAfterPatientRemoval = doctorDao.findOne(doctorTOId);
+        VisitEntity visitEntityAfterPatientRemoval = visitDao.findOne(visitTOId);
 
         // then
-
+        Assertions.assertAll(
+                () -> Assertions.assertNotNull(createdKamilKajakPatientTO, "PatientTO is null"),
+                () -> Assertions.assertNotNull(createdKamilKajakPatientTO.getId(), "PatientTO ID is null"),
+                () -> Assertions.assertEquals(kamilKajakPatientTO.getVip(), createdKamilKajakPatientTO.getVip(), "PatientTO VIP is different"),
+                () -> Assertions.assertNotNull(doctorEntityAfterPatientRemoval, "DoctorEntity after Patient removal is null"),
+                () -> Assertions.assertNull(visitEntityAfterPatientRemoval, "VisitEntity after Patient removal is not null")
+        );
     }
 }

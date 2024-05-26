@@ -30,4 +30,13 @@ public class MedicalTreatmentTO {
     public void setType(TreatmentType type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "MedicalTreatmentTO{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }

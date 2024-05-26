@@ -35,6 +35,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public void deleteById(Long id) {
-        patientDao.delete(id);
+        PatientEntity patientEntity = patientDao.findOne(id);
+        patientDao.delete(patientEntity);
     }
 }

@@ -59,4 +59,16 @@ public class VisitTO {
     public void setPatient(PatientTO patient) {
         this.patient = patient;
     }
+
+    @Override
+    public String toString() {
+        return "VisitTO{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", time=" + time +
+//                ", medicalTreatments=" + medicalTreatments +
+                ", doctor=" + doctor +
+                ", patient=" + patient +
+                '}';
+    }
 }

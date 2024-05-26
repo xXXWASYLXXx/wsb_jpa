@@ -23,7 +23,7 @@ public final class PatientMapper {
 
         ModelMapper modelMapper = new ModelMapper();
         patientEntity.getVisits().forEach(
-                visitEntity -> patientTO.getVisits().add(modelMapper.map(visitEntity, VisitTO.class)));
+                visitEntity -> patientTO.addVisit(modelMapper.map(visitEntity, VisitTO.class)));
         patientTO.setAddress(AddressMapper.mapToTO(patientEntity.getAddress()));
         return patientTO;
     }
@@ -44,7 +44,7 @@ public final class PatientMapper {
 
         ModelMapper modelMapper = new ModelMapper();
         patientTO.getVisits().forEach(
-                visitTO -> patientEntity.getVisits().add(modelMapper.map(visitTO, VisitEntity.class)));
+                visitTO -> patientEntity.addVisit(modelMapper.map(visitTO, VisitEntity.class)));
         patientEntity.setAddress(AddressMapper.mapToEntity(patientTO.getAddress()));
         return patientEntity;
     }

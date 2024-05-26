@@ -2,6 +2,7 @@ package com.capgemini.wsb.dto;
 
 import com.capgemini.wsb.persistence.enums.Specialization;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class DoctorTO {
@@ -12,8 +13,13 @@ public class DoctorTO {
     private String email;
     private String doctorNumber;
     private Specialization specialization;
-    private Set<VisitTO> visits;
+    private Set<VisitTO> visits = new HashSet<>();
     private AddressTO address;
+
+    public void addVisit(VisitTO visit) {
+        visit.setDoctor(this);
+        visits.add(visit);
+    }
 
     public Long getId() {
         return id;
@@ -85,5 +91,20 @@ public class DoctorTO {
 
     public void setAddress(AddressTO address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "DoctorTO{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", telephoneNumber='" + telephoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", doctorNumber='" + doctorNumber + '\'' +
+                ", specialization=" + specialization +
+//                ", visits=" + visits +
+                ", address=" + address +
+                '}';
     }
 }
