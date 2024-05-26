@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -42,15 +44,20 @@ public class DoctorEntity {
 	@Enumerated(EnumType.STRING)
 	private Specialization specialization;
 
-	// uni-directional relationship, DoctorEntity is the owner of the relationship
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@JoinColumn(name = "DOCTOR_ID", nullable = false)
-	private Set<VisitEntity> visits;
+	// LAB1: according to ERD - uni-directional relationship, DoctorEntity is the owner of the relationship
+	// LAB2: according to README - bidirectional relationship, DoctorEntity is the owner of the relationship
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<VisitEntity> visits = new HashSet<>();
 
 	// bidirectional relationship, DoctorEntity is the owner of the relationship
-	@OneToOne(optional = false)
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "ADDRESS_ID", nullable = false, unique = true, updatable = false)
 	private AddressEntity address;
+
+	public void addVisit(VisitEntity visit) {
+		visit.setDoctor(this);
+		visits.add(visit);
+	}
 
 	public Long getId() {
 		return id;

@@ -1,18 +1,19 @@
 package com.capgemini.wsb.persistence.entity;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "VISITS")
@@ -28,9 +29,15 @@ public class VisitEntity {
 	private LocalDateTime time;
 
 	// uni-directional relationship, VisitEntity is the owner of the relationship
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "VISIT_ID", nullable = false)
 	private Set<MedicalTreatmentEntity> medicalTreatments = new HashSet<>();
+
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	private DoctorEntity doctor;
+
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	private PatientEntity patient;
 
 	public Long getId() {
 		return id;
@@ -62,5 +69,21 @@ public class VisitEntity {
 
 	public void setMedicalTreatments(Set<MedicalTreatmentEntity> medicalTreatments) {
 		this.medicalTreatments = medicalTreatments;
+	}
+
+	public DoctorEntity getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(DoctorEntity doctor) {
+		this.doctor = doctor;
+	}
+
+	public PatientEntity getPatient() {
+		return patient;
+	}
+
+	public void setPatient(PatientEntity patient) {
+		this.patient = patient;
 	}
 }

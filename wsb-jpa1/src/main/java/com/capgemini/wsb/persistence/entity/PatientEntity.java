@@ -1,11 +1,9 @@
 package com.capgemini.wsb.persistence.entity;
 
-import java.time.LocalDate;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "PATIENTS")
@@ -39,14 +40,23 @@ public class PatientEntity {
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
 
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@JoinColumn(name = "PATIENT_ID", nullable = false)
-	private Set<VisitEntity> visits;
+	@Column(name = "IS_VIP", nullable = false)
+	private Boolean isVip;
+
+	// LAB1: according to ERD - uni-directional relationship, PatientEntity is the owner of the relationship
+	// LAB2: according to README - bidirectional relationship, PatientEntity is the owner of the relationship
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<VisitEntity> visits = new HashSet<>();
 
 	// bidirectional relationship, PatientEntity is the owner of the relationship
-	@OneToOne(optional = false)
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "ADDRESS_ID", nullable = false, unique = true, updatable = false)
 	private AddressEntity address;
+
+	public void addVisit(VisitEntity visit) {
+		visit.setPatient(this);
+		visits.add(visit);
+	}
 
 	public Long getId() {
 		return id;
@@ -102,6 +112,14 @@ public class PatientEntity {
 
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+
+	public Boolean getVip() {
+		return isVip;
+	}
+
+	public void setVip(Boolean vip) {
+		isVip = vip;
 	}
 
 	public Set<VisitEntity> getVisits() {
