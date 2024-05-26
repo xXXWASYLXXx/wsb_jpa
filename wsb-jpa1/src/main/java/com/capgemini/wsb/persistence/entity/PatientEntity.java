@@ -1,16 +1,21 @@
 package com.capgemini.wsb.persistence.entity;
 
 import java.time.LocalDate;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PATIENT")
+@Table(name = "PATIENTS")
 public class PatientEntity {
 
 	@Id
@@ -33,6 +38,15 @@ public class PatientEntity {
 
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
+
+	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@JoinColumn(name = "PATIENT_ID", nullable = false)
+	private Set<VisitEntity> visits;
+
+	// bidirectional relationship, PatientEntity is the owner of the relationship
+	@OneToOne(optional = false)
+	@JoinColumn(name = "ADDRESS_ID", nullable = false, unique = true, updatable = false)
+	private AddressEntity address;
 
 	public Long getId() {
 		return id;
@@ -90,4 +104,19 @@ public class PatientEntity {
 		this.dateOfBirth = dateOfBirth;
 	}
 
+	public Set<VisitEntity> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(Set<VisitEntity> visits) {
+		this.visits = visits;
+	}
+
+	public AddressEntity getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressEntity address) {
+		this.address = address;
+	}
 }
