@@ -127,4 +127,67 @@ class PatientServiceImplIntegrationTest {
                 () -> Assertions.assertNull(visitEntityAfterPatientRemoval, "VisitEntity after Patient removal is not null")
         );
     }
+
+    @Test
+    @Transactional
+    void shouldFindAllVisitsForPatient() {
+        // given
+        AddressTO kamilKajakAddressTO = new AddressTO();
+        kamilKajakAddressTO.setAddressLine1("Ul. Dzika");
+        kamilKajakAddressTO.setAddressLine2("333");
+        kamilKajakAddressTO.setCity("Warszawa");
+        kamilKajakAddressTO.setPostalCode("01-003");
+
+        PatientTO kamilKajakPatientTO = new PatientTO();
+        kamilKajakPatientTO.setDateOfBirth(LocalDate.of(1991, Month.FEBRUARY, 2));
+        kamilKajakPatientTO.setEmail("kkajak@mail.com");
+        kamilKajakPatientTO.setFirstName("Kamil");
+        kamilKajakPatientTO.setLastName("Kajak");
+        kamilKajakPatientTO.setPatientNumber("124");
+        kamilKajakPatientTO.setTelephoneNumber("987654321");
+        kamilKajakPatientTO.setVip(false);
+        kamilKajakPatientTO.setAddress(kamilKajakAddressTO);
+
+        AddressTO janKowalskiAddressTO = new AddressTO();
+        janKowalskiAddressTO.setAddressLine1("Ul. Krucza");
+        janKowalskiAddressTO.setAddressLine2("11");
+        janKowalskiAddressTO.setCity("Poznań");
+        janKowalskiAddressTO.setPostalCode("62-030");
+
+        DoctorTO janKowalskiDoctorTO = new DoctorTO();
+        janKowalskiDoctorTO.setDoctorNumber("123");
+        janKowalskiDoctorTO.setEmail("jkowalski@email.com");
+        janKowalskiDoctorTO.setFirstName("Jan");
+        janKowalskiDoctorTO.setLastName("Kowalski");
+        janKowalskiDoctorTO.setSpecialization(Specialization.SURGEON);
+        janKowalskiDoctorTO.setTelephoneNumber("123456789");
+        janKowalskiDoctorTO.setAddress(janKowalskiAddressTO);
+
+        VisitTO kamilKajakFisrtVisitTO = new VisitTO();
+        kamilKajakFisrtVisitTO.setDescription("First visit");
+        kamilKajakFisrtVisitTO.setTime(LocalDateTime.of(2020, Month.JANUARY, 1, 10, 0));
+        kamilKajakFisrtVisitTO.setDoctor(janKowalskiDoctorTO);
+        kamilKajakFisrtVisitTO.setPatient(kamilKajakPatientTO);
+
+        VisitTO kamilKajakSecondVisitTO = new VisitTO();
+        kamilKajakSecondVisitTO.setDescription("Second visit");
+        kamilKajakSecondVisitTO.setTime(LocalDateTime.of(2020, Month.FEBRUARY, 2, 11, 0));
+        kamilKajakSecondVisitTO.setDoctor(janKowalskiDoctorTO);
+        kamilKajakSecondVisitTO.setPatient(kamilKajakPatientTO);
+
+        janKowalskiDoctorTO.addVisit(kamilKajakFisrtVisitTO);
+        kamilKajakPatientTO.addVisit(kamilKajakFisrtVisitTO);
+
+        // when
+        PatientTO createdKamilKajakPatientTO = patientService.create(kamilKajakPatientTO);
+        PatientTO foundKamilKajakPatientTO = patientService.findById(createdKamilKajakPatientTO.getId());
+        Set<VisitTO> foundKamilKajakVisits = foundKamilKajakPatientTO.getVisits();
+
+        // then
+        Assertions.assertAll(
+                () -> Assertions.assertNotNull(createdKamilKajakPatientTO, "PatientTO is null"),
+                () -> Assertions.assertNotNull(createdKamilKajakPatientTO.getId(), "PatientTO ID is null"),
+                () -> Assertions.assertEquals(1, foundKamilKajakVisits.size(), "Number of Visits is different")
+        );
+    }
 }
