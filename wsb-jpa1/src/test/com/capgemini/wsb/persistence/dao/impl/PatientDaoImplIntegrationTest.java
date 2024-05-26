@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,24 +23,24 @@ public class PatientDaoImplIntegrationTest {
     @Test
     public void testShouldFindPatientByLastName() {
         // given
-        AddressEntity janKowalskiAddressTO = new AddressEntity();
-        janKowalskiAddressTO.setAddressLine1("Ul. Morska");
-        janKowalskiAddressTO.setAddressLine2("22");
-        janKowalskiAddressTO.setCity("Warszawa");
-        janKowalskiAddressTO.setPostalCode("71-002");
+        AddressEntity janKowalskiAddressEntity = new AddressEntity();
+        janKowalskiAddressEntity.setAddressLine1("Ul. Morska");
+        janKowalskiAddressEntity.setAddressLine2("22");
+        janKowalskiAddressEntity.setCity("Warszawa");
+        janKowalskiAddressEntity.setPostalCode("71-002");
 
-        PatientEntity janKowalskiPatientTO = new PatientEntity();
-        janKowalskiPatientTO.setDateOfBirth(LocalDate.of(1990, Month.JANUARY, 1));
-        janKowalskiPatientTO.setEmail("jkowalski@email.com");
-        janKowalskiPatientTO.setFirstName("Jan");
-        janKowalskiPatientTO.setLastName("Kowalski");
-        janKowalskiPatientTO.setPatientNumber("123");
-        janKowalskiPatientTO.setTelephoneNumber("123456789");
-        janKowalskiPatientTO.setVip(true);
-        janKowalskiPatientTO.setAddress(janKowalskiAddressTO);
+        PatientEntity janKowalskiPatientEntity = new PatientEntity();
+        janKowalskiPatientEntity.setDateOfBirth(LocalDate.of(1990, Month.JANUARY, 1));
+        janKowalskiPatientEntity.setEmail("jkowalski@email.com");
+        janKowalskiPatientEntity.setFirstName("Jan");
+        janKowalskiPatientEntity.setLastName("Kowalski");
+        janKowalskiPatientEntity.setPatientNumber("123");
+        janKowalskiPatientEntity.setTelephoneNumber("123456789");
+        janKowalskiPatientEntity.setVip(true);
+        janKowalskiPatientEntity.setAddress(janKowalskiAddressEntity);
 
         // when
-        patientDaoImpl.save(janKowalskiPatientTO);
+        patientDaoImpl.save(janKowalskiPatientEntity);
         PatientEntity patientEntity = patientDaoImpl.findByLastName("Kowalski");
 
         // then
@@ -47,6 +48,53 @@ public class PatientDaoImplIntegrationTest {
                 () -> Assertions.assertNotNull(patientEntity),
                 () -> Assertions.assertEquals("Jan", patientEntity.getFirstName()),
                 () -> Assertions.assertEquals("Kowalski", patientEntity.getLastName())
+        );
+    }
+
+    @Test
+    public void testShouldFindVipPatients() {
+        // given
+        AddressEntity janKowalskiAddressEntity = new AddressEntity();
+        janKowalskiAddressEntity.setAddressLine1("Ul. Morska");
+        janKowalskiAddressEntity.setAddressLine2("22");
+        janKowalskiAddressEntity.setCity("Warszawa");
+        janKowalskiAddressEntity.setPostalCode("71-002");
+
+        PatientEntity janKowalskiPatientEntity = new PatientEntity();
+        janKowalskiPatientEntity.setDateOfBirth(LocalDate.of(1990, Month.JANUARY, 1));
+        janKowalskiPatientEntity.setEmail("jkowalski@email.com");
+        janKowalskiPatientEntity.setFirstName("Jan");
+        janKowalskiPatientEntity.setLastName("Kowalski");
+        janKowalskiPatientEntity.setPatientNumber("123");
+        janKowalskiPatientEntity.setTelephoneNumber("123456789");
+        janKowalskiPatientEntity.setVip(true);
+        janKowalskiPatientEntity.setAddress(janKowalskiAddressEntity);
+
+        AddressEntity kamilKajakAddressEntity = new AddressEntity();
+        kamilKajakAddressEntity.setAddressLine1("Ul. Dzika");
+        kamilKajakAddressEntity.setAddressLine2("333");
+        kamilKajakAddressEntity.setCity("Warszawa");
+        kamilKajakAddressEntity.setPostalCode("01-003");
+
+        PatientEntity kamilKajakPatientEntity = new PatientEntity();
+        kamilKajakPatientEntity.setDateOfBirth(LocalDate.of(1991, Month.FEBRUARY, 2));
+        kamilKajakPatientEntity.setEmail("kkajak@mail.com");
+        kamilKajakPatientEntity.setFirstName("Kamil");
+        kamilKajakPatientEntity.setLastName("Kajak");
+        kamilKajakPatientEntity.setPatientNumber("124");
+        kamilKajakPatientEntity.setTelephoneNumber("987654321");
+        kamilKajakPatientEntity.setVip(false);
+        kamilKajakPatientEntity.setAddress(kamilKajakAddressEntity);
+
+        // when
+        patientDaoImpl.save(janKowalskiPatientEntity);
+        patientDaoImpl.save(kamilKajakPatientEntity);
+        List<PatientEntity> foundVipPatients = patientDaoImpl.findVipPatients();
+
+        // then
+        final int vipPatientsCount = 2;  // NOTE: data.sql inserts 1 VIP patient, that's why we expect 2 here
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(vipPatientsCount, foundVipPatients.size(), "Wrong number of VIP patients")
         );
     }
 }

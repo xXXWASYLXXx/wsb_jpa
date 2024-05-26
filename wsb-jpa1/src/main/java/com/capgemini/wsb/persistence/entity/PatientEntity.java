@@ -41,7 +41,7 @@ public class PatientEntity {
 	private LocalDate dateOfBirth;
 
 	@Column(name = "IS_VIP", nullable = false)
-	private Boolean isVip;
+	private boolean isVip;
 
 	// LAB1: according to ERD - uni-directional relationship, PatientEntity is the owner of the relationship
 	// LAB2: according to README - bidirectional relationship, PatientEntity is the owner of the relationship
@@ -114,11 +114,11 @@ public class PatientEntity {
 		this.dateOfBirth = dateOfBirth;
 	}
 
-	public Boolean getVip() {
+	public boolean isVip() {
 		return isVip;
 	}
 
-	public void setVip(Boolean vip) {
+	public void setVip(boolean vip) {
 		isVip = vip;
 	}
 
