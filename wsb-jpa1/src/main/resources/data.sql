@@ -1,7 +1,11 @@
-insert into ADDRESSES (id, address_line1, address_line2, city, postal_code) values (1, 'Ul. Krucza', '11', 'Poznan', '62-030');
-INSERT INTO ADDRESSES (ID, ADDRESS_LINE1, ADDRESS_LINE2, CITY, POSTAL_CODE) VALUES (2, 'Ul. Piekna', '1', 'Warszawa', '01-001');
-INSERT INTO ADDRESSES (ID, ADDRESS_LINE1, ADDRESS_LINE2, CITY, POSTAL_CODE) VALUES (3, 'Ul. Morska', '22', 'Warszawa', '01-002');
-INSERT INTO ADDRESSES (ID, ADDRESS_LINE1, ADDRESS_LINE2, CITY, POSTAL_CODE) VALUES (4, 'Ul. Dzika', '333', 'Warszawa', '01-003');
+insert into ADDRESSES (id, address_line1, address_line2, city, postal_code)
+    values (1, 'Ul. Krucza', '11', 'Poznan', '62-030');
+INSERT INTO ADDRESSES (ID, ADDRESS_LINE1, ADDRESS_LINE2, CITY, POSTAL_CODE)
+    VALUES (2, 'Ul. Piekna', '1', 'Warszawa', '01-001');
+INSERT INTO ADDRESSES (ID, ADDRESS_LINE1, ADDRESS_LINE2, CITY, POSTAL_CODE)
+    VALUES (3, 'Ul. Morska', '22', 'Gdynia', '71-002');
+INSERT INTO ADDRESSES (ID, ADDRESS_LINE1, ADDRESS_LINE2, CITY, POSTAL_CODE)
+    VALUES (4, 'Ul. Dzika', '333', 'Warszawa', '01-003');
 
 INSERT INTO DOCTORS(ID, DOCTOR_NUMBER, EMAIL, FIRST_NAME, LAST_NAME, SPECIALIZATION, TELEPHONE_NUMBER, ADDRESS_ID)
     VALUES (1, '123', 'jkowalski@email.com', 'Jan', 'Kowalski', 'SURGEON', '123456789', 1);

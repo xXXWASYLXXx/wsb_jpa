@@ -49,7 +49,7 @@ public class PatientEntity {
 	private Set<VisitEntity> visits;
 
 	// bidirectional relationship, PatientEntity is the owner of the relationship
-	@OneToOne(optional = false)
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "ADDRESS_ID", nullable = false, unique = true, updatable = false)
 	private AddressEntity address;
 

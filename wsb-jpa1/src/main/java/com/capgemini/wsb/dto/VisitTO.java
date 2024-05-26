@@ -7,6 +7,8 @@ public class VisitTO {
     private String description;
     private String time;
     private Set<MedicalTreatmentTO> medicalTreatments;
+    private DoctorTO doctor;
+    private PatientTO patient;
 
     public Long getId() {
         return id;
@@ -38,5 +40,21 @@ public class VisitTO {
 
     public void setMedicalTreatments(Set<MedicalTreatmentTO> medicalTreatments) {
         this.medicalTreatments = medicalTreatments;
+    }
+
+    public DoctorTO getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(DoctorTO doctor) {
+        this.doctor = doctor;
+    }
+
+    public PatientTO getPatient() {
+        return patient;
+    }
+
+    public void setPatient(PatientTO patient) {
+        this.patient = patient;
     }
 }

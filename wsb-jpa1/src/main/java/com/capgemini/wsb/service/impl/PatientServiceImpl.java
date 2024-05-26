@@ -25,4 +25,16 @@ public class PatientServiceImpl implements PatientService {
         PatientEntity entity = patientDao.findOne(id);
         return PatientMapper.mapToTO(entity);
     }
+
+    @Override
+    public PatientTO create(PatientTO patientTO) {
+        PatientEntity patientEntity = PatientMapper.mapToEntity(patientTO);
+        PatientEntity savedPatientEntity = patientDao.save(patientEntity);
+        return PatientMapper.mapToTO(savedPatientEntity);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        patientDao.delete(id);
+    }
 }
