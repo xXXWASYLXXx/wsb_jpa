@@ -1,12 +1,16 @@
 package com.capgemini.wsb.persistence.entity;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +25,10 @@ public class VisitEntity {
 
 	@Column(nullable = false)
 	private LocalDateTime time;
+
+	// bidirectional relationship, VisitEntity is the owner side of the relationship
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "visit")
+	private Set<MedicalTreatmentEntity> medicalTreatments = new HashSet<>();
 
 	public Long getId() {
 		return id;
