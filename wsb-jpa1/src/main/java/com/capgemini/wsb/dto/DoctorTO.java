@@ -1,18 +1,17 @@
 package com.capgemini.wsb.dto;
 
-import java.io.Serializable;
-import java.time.LocalDate;
+import com.capgemini.wsb.persistence.enums.Specialization;
+
 import java.util.Set;
 
-public class PatientTO implements Serializable {
+public class DoctorTO {
     private Long id;
     private String firstName;
     private String lastName;
     private String telephoneNumber;
     private String email;
-    private String patientNumber;
-    private LocalDate dateOfBirth;
-    private Boolean isVip;
+    private String doctorNumber;
+    private Specialization specialization;
     private Set<VisitTO> visits;
     private AddressTO address;
 
@@ -56,28 +55,20 @@ public class PatientTO implements Serializable {
         this.email = email;
     }
 
-    public String getPatientNumber() {
-        return patientNumber;
+    public String getDoctorNumber() {
+        return doctorNumber;
     }
 
-    public void setPatientNumber(String patientNumber) {
-        this.patientNumber = patientNumber;
+    public void setDoctorNumber(String doctorNumber) {
+        this.doctorNumber = doctorNumber;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+    public Specialization getSpecialization() {
+        return specialization;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public Boolean getVip() {
-        return isVip;
-    }
-
-    public void setVip(Boolean vip) {
-        isVip = vip;
+    public void setSpecialization(Specialization specialization) {
+        this.specialization = specialization;
     }
 
     public Set<VisitTO> getVisits() {
