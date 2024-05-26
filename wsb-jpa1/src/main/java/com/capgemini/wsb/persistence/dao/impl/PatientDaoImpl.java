@@ -25,4 +25,13 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
                         "SELECT p FROM PatientEntity p WHERE p.isVip = TRUE", PatientEntity.class)
                 .getResultList();
     }
+
+    @Override
+    public List<PatientEntity> findPatientsWithExpectedVisits(long expectedVisits) {
+        return entityManager.createQuery(
+                        "SELECT p FROM PatientEntity p JOIN p.visits v GROUP BY p HAVING COUNT(v) = :expectedVisits",
+                        PatientEntity.class)
+                .setParameter("expectedVisits", expectedVisits)
+                .getResultList();
+    }
 }
