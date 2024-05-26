@@ -39,6 +39,9 @@ public class PatientEntity {
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
 
+	@Column(name = "IS_VIP", nullable = false)
+	private Boolean isVip;
+
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JoinColumn(name = "PATIENT_ID", nullable = false)
 	private Set<VisitEntity> visits;
